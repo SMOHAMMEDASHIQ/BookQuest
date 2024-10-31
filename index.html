@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookQuest</title>
+    
+    <!-- Import Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Global Style */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://static.vecteezy.com/system/resources/previews/045/906/793/non_2x/stack-of-books-on-orange-background-free-photo.jpeg') no-repeat center center fixed; 
+            background-size: cover; /* Cover the entire viewport */
+            color: #f4f4f9;
+            display: flex;
+            justify-content: flex-start; /* Align content to the left */
+            align-items: center;
+            min-height: 100vh;
+            overflow-y: auto; /* Enable vertical scrolling for the whole page */
+            padding: 20px; /* Add some padding */
+        }
+        
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 500px; /* Reduced container width */
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7); /* Darker background for readability */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease;
+            overflow: hidden;
+            margin-left: 20px; /* Move container to the left */
+        }
+
+        /* Heading */
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            animation: slideDown 1s ease;
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            padding: 12px;
+            width: 70%;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #5c67e1;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4a53c4;
+        }
+
+        /* Recommendations Section */
+        .recommendations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-height: 300px; /* Set a fixed height */
+            overflow-y: auto;  /* Add vertical scroll */
+            padding-right: 10px;
+        }
+        .recommendations::-webkit-scrollbar {
+            width: 8px;
+        }
+        .recommendations::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .recommendations::-webkit-scrollbar-thumb {
+            background-color: #5c67e1;
+            border-radius: 10px;
+            border: 2px solid transparent;
+        }
+
+        .book {
+            width: 150px;
+            text-align: center;
+            animation: popUp 0.5s ease;
+        }
+        .book img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .book img:hover {
+            transform: scale(1.05);
+        }
+        .book-title {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes popUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BookQuest</h1>
+        <form action="/recommend" method="post">
+            <input type="text" id="book_name" name="book_name" placeholder="Enter a Book Title" required>
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        {% if recommendations %}
+            <h2>Recommendations for "{{ book_name }}":</h2>
+            <div class="recommendations">
+                {% for book in recommendations %}
+                    <div class="book">
+                        <img src="{{ book.img_url }}" alt="Cover of {{ book.title }}">
+                        <div class="book-title">{{ book.title }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
